@@ -63,10 +63,13 @@ class SingleCovidSimulator:
                 pt = (point[0], point[1])
                 up_frame = cv2.circle(up_frame, pt, self.rad, (int((min(point[2], 14)) / 14 * 255), int((min(point[2], 14)) / 14 * 255), 255), -1)
                 # up_frame = cv2.circle(up_frame, pt, self.rad, (0, 0, 0), 1)
-        left_text_coord = (int((self.l_end - self.l_start) / 2 + self.l_start), int(self.label_h * 3 / 4))
-        right_text_coord = (int((self.r_end - self.r_start) / 2) + self.r_start, int(self.label_h * 3 / 4))
-        days_counter_coord = (int(self.width / 2), int(self.label_h / 4))
         font = cv2.FONT_HERSHEY_SIMPLEX
+        left_size = cv2.getTextSize('R = 1.1', font, 1, 2)[0]
+        right_size = cv2.getTextSize('R = 1.4', font, 1, 2)[0]
+        days_counter_size = cv2.getTextSize(f"Day {self.day_num}", font, 1, 2)[0]
+        left_text_coord = (int((self.l_end - self.l_start - left_size[0]) / 2 + self.l_start), int(self.label_h * 3 / 4))
+        right_text_coord = (int((self.r_end - self.r_start - right_size[0]) / 2) + self.r_start, int(self.label_h * 3 / 4))
+        days_counter_coord = (int((self.width - days_counter_size[0]) / 2), int(self.label_h / 4))
         up_frame = cv2.putText(up_frame, 'R = 1.1', left_text_coord, font, 1, (0, 0, 0), 2, cv2.LINE_AA)
         up_frame = cv2.putText(up_frame, 'R = 1.4', right_text_coord, font, 1, (0, 0, 0), 2, cv2.LINE_AA)
         up_frame = cv2.putText(up_frame, f"Day {self.day_num}", days_counter_coord, font, 1, (0, 0, 0), 2, cv2.LINE_AA)
