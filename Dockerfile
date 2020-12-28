@@ -1,10 +1,12 @@
-FROM python:3.8.1
+FROM ubuntu:latest
+ENV DEBIAN_FRONTEND noninteractive
 
-ENV APP_HOME /app
-WORKDIR $APP_HOME
-
+RUN apt-get update -y
+RUN apt-get install -y python3 python3-pip
+RUN apt-get install -y libgl1-mesa-dev libgl1-mesa-glx
+RUN apt-get install -y libgtk2.0-dev
 COPY . /app
+WORKDIR /app
+RUN python3 -m pip install -r requirements.txt
 
-RUN pip install -r requirements.txt
-
-ENTRYPOINT ["python app.py"]
+CMD [ "python3", "./app.py" ]
